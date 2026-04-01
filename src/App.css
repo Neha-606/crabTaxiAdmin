@@ -1,0 +1,55 @@
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #f5f5f5;
+}
+
+.app {
+  display: flex;
+}
+
+.main {
+  flex: 1;
+}
+
+.header {
+  background: #00bf63;
+  color: #000;
+  padding: 10px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.content {
+  padding: 20px;
+  text-align: left;
+}
+
+.cards {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  flex: 1;
+}
+
+.welcome {
+  flex: 2;
+  border: 1px solid #00bf63;
+}
+
+.welcome button {
+  background: #00bf63;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+}
+.card h3, h4, p{
+  color: #000;
+}
