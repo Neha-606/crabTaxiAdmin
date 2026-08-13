@@ -1,0 +1,329 @@
+.requested-rides-container {
+  padding: 30px;
+  min-height: 100vh;
+  background: #f5f7fb;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.page-header h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.page-header p {
+  margin-top: 7px;
+  color: #6b7280;
+}
+
+
+/* =========================================
+   REFRESH BUTTON
+========================================= */
+
+.refresh-btn {
+  border: none;
+  background: #00bf63;
+  color: white;
+  padding: 11px 20px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.refresh-btn:hover {
+  background: #00a956;
+}
+
+
+/* =========================================
+   COUNT
+========================================= */
+
+.ride-count {
+  background: white;
+  padding: 18px 22px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.ride-count span {
+  font-size: 15px;
+  color: #6b7280;
+}
+
+.ride-count strong {
+  font-size: 25px;
+  color: #00bf63;
+}
+
+
+/* =========================================
+   TABLE
+========================================= */
+
+.table-wrapper {
+  background: white;
+  border-radius: 12px;
+  overflow-x: auto;
+
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.rides-table {
+  width: 100%;
+  min-width: 1100px;
+  border-collapse: collapse;
+}
+
+.rides-table thead {
+  background: #f8fafc;
+}
+
+.rides-table th {
+  padding: 16px;
+  text-align: left;
+  font-size: 13px;
+  color: #4b5563;
+  border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;
+}
+
+.rides-table td {
+  padding: 16px;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 14px;
+  color: #374151;
+  vertical-align: middle;
+}
+
+.rides-table tbody tr:hover {
+  background: #fafafa;
+}
+
+
+/* =========================================
+   CUSTOMER
+========================================= */
+
+.customer-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.customer-avatar {
+  width: 38px;
+  height: 38px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #e6f8ef;
+  color: #00a957;
+
+  font-weight: 700;
+}
+
+.customer-cell strong {
+  display: block;
+  color: #111827;
+}
+
+.customer-cell small {
+  display: block;
+  margin-top: 3px;
+  color: #9ca3af;
+}
+
+
+/* =========================================
+   LOCATIONS
+========================================= */
+
+.location-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  max-width: 200px;
+}
+
+.pickup-dot {
+  width: 9px;
+  height: 9px;
+
+  border-radius: 50%;
+
+  background: #00bf63;
+
+  flex-shrink: 0;
+}
+
+.destination-dot {
+  width: 9px;
+  height: 9px;
+
+  border-radius: 50%;
+
+  background: #ef4444;
+
+  flex-shrink: 0;
+}
+
+
+/* =========================================
+   FARE
+========================================= */
+
+.fare {
+  color: #111827;
+}
+
+
+/* =========================================
+   STATUS
+========================================= */
+
+.status-badge {
+  display: inline-block;
+
+  padding: 6px 12px;
+
+  border-radius: 20px;
+
+  background: #fff7df;
+
+  color: #b77900;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  text-transform: capitalize;
+}
+
+
+/* =========================================
+   EMPTY
+========================================= */
+
+.empty-box {
+  background: white;
+  border-radius: 12px;
+
+  padding: 70px 20px;
+
+  text-align: center;
+
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+.empty-icon {
+  font-size: 45px;
+  margin-bottom: 15px;
+}
+
+.empty-box h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.empty-box p {
+  color: #6b7280;
+}
+
+
+/* =========================================
+   LOADING
+========================================= */
+
+.loading-box {
+  background: white;
+  padding: 60px;
+
+  border-radius: 12px;
+
+  text-align: center;
+
+  color: #6b7280;
+}
+
+
+/* =========================================
+   ERROR
+========================================= */
+
+.error-box {
+  background: #fff1f2;
+  border: 1px solid #fecdd3;
+
+  color: #dc2626;
+
+  padding: 15px 20px;
+
+  border-radius: 8px;
+
+  margin-bottom: 15px;
+}
+
+.retry-btn {
+  border: none;
+  background: #00bf63;
+  color: white;
+
+  padding: 10px 20px;
+
+  border-radius: 6px;
+
+  cursor: pointer;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+  .requested-rides-container {
+    padding: 15px;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .page-header h2 {
+    font-size: 23px;
+  }
+
+  .refresh-btn {
+    width: 100%;
+  }
+
+}

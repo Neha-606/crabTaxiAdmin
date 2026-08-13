@@ -1,0 +1,403 @@
+.bookride-container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+.bookride-header {
+  margin-bottom: 25px;
+}
+
+.bookride-header h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.bookride-header p {
+  margin-top: 7px;
+  color: #777;
+  font-size: 14px;
+}
+
+/* =========================
+   STEPS
+========================= */
+
+.steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 25px 0 30px;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #999;
+}
+
+.step span {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #e5e5e5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.step p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.step.active {
+  color: #00bf63;
+}
+
+.step.active span {
+  background: #00bf63;
+  color: white;
+}
+
+.step-line {
+  width: 80px;
+  height: 2px;
+  background: #ddd;
+  margin: 0 15px;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 28px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+}
+
+.card-header {
+  margin-bottom: 25px;
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 21px;
+}
+
+.card-header p {
+  margin: 6px 0 0;
+  color: #777;
+  font-size: 14px;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  font-size: 14px;
+  outline: none;
+  box-sizing: border-box;
+  background: white;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #00bf63;
+  box-shadow: 0 0 0 2px rgba(0, 191, 99, 0.08);
+}
+
+.form-group small {
+  margin-top: 6px;
+  color: #888;
+  font-size: 12px;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.button-area {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.button-area button,
+.new-ride-button {
+  border: none;
+  background: #00bf63;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 7px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.button-area button:hover,
+.new-ride-button:hover {
+  opacity: 0.9;
+}
+
+.button-area button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.secondary-button {
+  background: #777 !important;
+}
+
+/* =========================
+   ERROR
+========================= */
+
+.error-message {
+  background: #fff0f0;
+  color: #d93025;
+  border: 1px solid #ffcaca;
+  padding: 12px 15px;
+  border-radius: 7px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.error-message span {
+  margin-right: 8px;
+}
+
+/* =========================
+   CUSTOMER SUMMARY
+========================= */
+
+.customer-summary {
+  background: #f7f9f8;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 18px;
+  margin-bottom: 25px;
+}
+
+.customer-summary h4 {
+  margin: 0 0 15px;
+  font-size: 16px;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+
+.summary-grid div,
+.success-grid div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.summary-grid span,
+.success-grid span {
+  color: #888;
+  font-size: 12px;
+}
+
+.summary-grid strong,
+.success-grid strong {
+  font-size: 14px;
+  color: #333;
+}
+
+/* =========================
+   RIDE FORM
+========================= */
+
+.ride-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.ride-form .form-group:last-child {
+  grid-column: 1 / -1;
+  max-width: 50%;
+}
+
+/* =========================
+   SUCCESS
+========================= */
+
+.success-card {
+  text-align: center;
+}
+
+.success-icon {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background: #00bf63;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 18px;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.success-card h3 {
+  margin: 0;
+  font-size: 23px;
+}
+
+.success-card > p {
+  color: #777;
+  margin: 8px 0 25px;
+}
+
+/* =========================
+   SUCCESS SECTIONS
+========================= */
+
+.success-section {
+  text-align: left;
+  border: 1px solid #e5e5e5;
+  border-radius: 9px;
+  padding: 18px;
+  margin-top: 18px;
+}
+
+.success-section h4 {
+  margin: 0 0 15px;
+  font-size: 16px;
+}
+
+.success-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.status {
+  color: #00a956 !important;
+}
+
+.location-box {
+  padding: 10px;
+  background: #f7f9f8;
+  border-radius: 6px;
+}
+
+.ride-response {
+  background: #f7f9f8;
+  padding: 15px;
+  border-radius: 7px;
+}
+
+.ride-response p {
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+.new-ride-button {
+  margin-top: 25px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+
+  .bookride-container {
+    padding: 20px 15px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ride-form {
+    grid-template-columns: 1fr;
+  }
+
+  .ride-form .form-group:last-child {
+    grid-column: auto;
+    max-width: 100%;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .success-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .steps {
+    justify-content: flex-start;
+    overflow-x: auto;
+  }
+
+  .step-line {
+    width: 35px;
+    margin: 0 8px;
+  }
+
+  .step p {
+    display: none;
+  }
+
+  .card {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .button-area {
+    flex-direction: column;
+  }
+
+  .button-area button {
+    width: 100%;
+  }
+
+}

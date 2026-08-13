@@ -1,0 +1,132 @@
+.customers-container {
+  padding: 20px;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.customers-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.customers-header h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.customers-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+.customers-table thead {
+  background: #f3f4f6;
+}
+
+.customers-table th {
+  padding: 18px 16px;
+  text-align: left;
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.customers-table td {
+  padding: 16px;
+  border-bottom: 1px solid #e5e7eb;
+  vertical-align: middle;
+}
+
+.customers-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+/* USER INFO */
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 220px;
+}
+
+.avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e5e7eb;
+  background: #f3f4f6;
+}
+
+.user-info span {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* STATUS */
+
+.active-status {
+  background: #dcfce7;
+  color: #15803d;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  display: inline-block;
+}
+
+/* ACTION BUTTONS */
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.view-btn,
+.delete-btn {
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.view-btn {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.view-btn:hover {
+  background: #bbf7d0;
+}
+
+.delete-btn {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.delete-btn:hover {
+  background: #fecaca;
+}
+
+
+
+.no-data {
+  text-align: center;
+  padding: 30px;
+  color: #6b7280;
+  font-weight: 500;
+}

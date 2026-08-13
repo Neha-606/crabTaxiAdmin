@@ -1,0 +1,83 @@
+/* Full Page */
+.login-container {
+  height: 100vh;
+  background-color: #f5f5f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Box */
+.login-box {
+  width: 350px;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo */
+.logo {
+  color: #0bb15d;
+  margin-bottom: 10px;
+}
+
+/* Title */
+.title {
+  color: #0bb15d;
+  margin-bottom: 20px;
+}
+
+/* Input */
+.input-group {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #0bb15d;
+  border-radius: 5px;
+  outline: none;
+}
+
+/* Icon */
+.icon {
+  position: absolute;
+  right: 10px;
+  top: 12px;
+  color: #0bb15d;
+}
+
+/* Forgot */
+.forgot {
+  text-align: right;
+  font-size: 14px;
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+/* Buttons */
+.btn {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  margin-top: 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Login Button */
+.login-btn {
+  background-color: #0bb15d;
+  color: white;
+}
+
+/* Signup Button */
+.signup-btn {
+  background-color: #0bb15d;
+  color: white;
+}

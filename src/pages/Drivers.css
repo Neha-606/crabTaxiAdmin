@@ -1,0 +1,75 @@
+.drivers-container {
+  padding: 20px;
+}
+
+.drivers-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.drivers-table th {
+  background: #00a859;
+  color: white;
+  padding: 12px;
+  text-align: left;
+}
+
+.drivers-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.status {
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.status.pending {
+  background: #ffeaa7;
+  color: #d35400;
+}
+.actions {
+  display: flex;
+  gap: 90px;
+}
+
+.view-btn {
+  background-color: white;
+  border: none;
+  color:  #22c55e;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+font-size: 20px;
+}
+
+.delete-btn {
+  background-color: white;
+  border: none;
+  color:  #ef4444;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 20px;
+}
+.filter-buttons {
+  margin-bottom: 20px;
+}
+
+.filter-buttons button {
+  margin-right: 10px;
+  padding: 8px 14px;
+  border: none;
+  background: #eee;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.filter-buttons button.active {
+  background: #007bff;
+  color: white;
+}
