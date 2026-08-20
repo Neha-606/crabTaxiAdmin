@@ -1,5 +1,5 @@
-import React from "react";
-import "./driverProfile.css";
+import React, { useEffect, useState } from "react";
+import "./DriverProfile.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaCheckCircle, FaDollarSign, FaStar } from "react-icons/fa";
 
@@ -18,11 +18,93 @@ import {
   rejectProfile,
 } from "../api/profileApi";
 
+import { getDriverRideHistory } from "../api/rideHistoryApi";
+import { getAddressFromCoordinates } from "../services/geoapify";
+
 const DriverProfile = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
 
   const driver = state?.driver;
+
+  const [rideHistory, setRideHistory] = useState([]);
+const [historyLoading, setHistoryLoading] = useState(false);
+const [historyError, setHistoryError] = useState("");
+
+useEffect(() => {
+  if (!driver?._id) return;
+
+  const fetchRideHistory = async () => {
+    try {
+      setHistoryLoading(true);
+      setHistoryError("");
+
+      const response = await getDriverRideHistory(driver._id);
+
+      console.log("DRIVER RIDE HISTORY:", response);
+
+      const rides = response?.data?.rides || [];
+
+      // Convert pickup/dropoff coordinates into addresses
+      const ridesWithAddresses = await Promise.all(
+        rides.map(async (ride) => {
+          let pickupAddress = "Address not found";
+          let dropoffAddress = "Address not found";
+
+          // Pickup coordinates -> address
+          if (
+            ride.pickup?.lat != null &&
+            ride.pickup?.lng != null
+          ) {
+            pickupAddress =
+              (await getAddressFromCoordinates(
+                ride.pickup.lat,
+                ride.pickup.lng
+              )) || "Address not found";
+          }
+
+          // Dropoff coordinates -> address
+          if (
+            ride.dropoff?.lat != null &&
+            ride.dropoff?.lng != null
+          ) {
+            dropoffAddress =
+              (await getAddressFromCoordinates(
+                ride.dropoff.lat,
+                ride.dropoff.lng
+              )) || "Address not found";
+          }
+
+          return {
+            ...ride,
+            pickupAddress,
+            dropoffAddress,
+          };
+        })
+      );
+
+      console.log(
+        "RIDES WITH ADDRESSES:",
+        ridesWithAddresses
+      );
+
+      setRideHistory(ridesWithAddresses);
+
+    } catch (error) {
+      console.error("DRIVER RIDE HISTORY ERROR:", error);
+
+      setHistoryError(
+        error?.response?.data?.message ||
+        error?.message ||
+        "Failed to fetch ride history"
+      );
+    } finally {
+      setHistoryLoading(false);
+    }
+  };
+
+  fetchRideHistory();
+}, [driver?._id]);
 
   if (!driver) {
     return (
@@ -143,6 +225,7 @@ const handleRejectDoc = async () => {
     }
   };
 
+ 
   return (
     <div className="driver-container">
       <h2 className="page-title">
@@ -371,6 +454,72 @@ const handleRejectDoc = async () => {
             <button onClick={handleRejectVehicle}>Reject</button>
           </div>
         </div>
+
+         {/* Ride history */}
+
+  <div className="info-card ride-history-card">
+  <div className="card-header">
+    <h3>Ride History</h3>
+  </div>
+
+  {historyLoading ? (
+    <p>Loading ride history...</p>
+  ) : historyError ? (
+    <p className="red">{historyError}</p>
+  ) : rideHistory.length === 0 ? (
+    <p>No ride history found.</p>
+  ) : (
+    <div className="ride-table-wrapper">
+      <table className="ride-history-table">
+        <thead>
+          <tr>
+            {/* <th>Rider</th> */}
+            <th>Pickup</th>
+            <th>Destination</th>
+            <th>Fare</th>
+            <th>Status</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {rideHistory.map((ride) => (
+            <tr key={ride._id}>
+              {/* <td>
+  {ride.passengerId?.phoneNumber || "N/A"}
+</td> */}
+
+              <td>
+  {ride.pickupAddress || "Address not found"}
+</td>
+
+             <td>
+  {ride.dropoffAddress || "Address not found"}
+</td>
+
+              <td>
+  {ride.fare?.amount != null
+    ? `₹${ride.fare.amount}`
+    : "N/A"}
+</td>
+
+              <td>
+                {ride.status || "N/A"}
+              </td>
+
+              <td>
+                {ride.createdAt
+                  ? new Date(ride.createdAt).toLocaleDateString()
+                  : "N/A"}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )}
+</div>
+
 
       </div>
     </div>
