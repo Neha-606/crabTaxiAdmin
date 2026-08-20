@@ -1,10 +1,31 @@
+/* =========================================
+   PROFILE CONTAINER
+========================================= */
+
 .profile-container {
   padding: 20px;
+  box-sizing: border-box;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.profile-header {
+  margin-bottom: 10px;
+}
+
+.profile-header h2 {
+  margin: 0;
 }
 
 .green {
   color: #00c853;
 }
+
+/* =========================================
+   PROFILE CARD
+========================================= */
 
 .profile-card-user {
   background: white;
@@ -16,6 +37,7 @@
 
 .cover-image {
   height: 180px;
+
   background: linear-gradient(
     90deg,
     #00c853,
@@ -31,52 +53,583 @@
 .avatar-user {
   width: 90px;
   height: 90px;
+
   border-radius: 50%;
+
   background: #00c853;
   color: white;
+
   font-size: 35px;
   font-weight: bold;
+
   line-height: 90px;
+
   margin: -60px auto 10px;
+
   border: 4px solid white;
 }
+
+.profile-info-user h2 {
+  margin: 10px 0;
+}
+
+/* =========================================
+   PROFILE STATS
+========================================= */
 
 .stats-user {
   display: flex;
   justify-content: center;
+  align-items: center;
+
   gap: 60px;
+
   margin: 20px 80px;
+
   flex-direction: row;
 }
 
 .stats-user h4 {
   margin: 0;
+  font-size: 16px;
 }
 
 .stats-user p {
   color: gray;
+  margin: 6px 0 0;
 }
+
+/* =========================================
+   BACK BUTTON
+========================================= */
 
 .back-btn {
   padding: 10px 20px;
+
   background: #00c853;
+
   border: none;
+
   color: white;
+
   border-radius: 6px;
+
   cursor: pointer;
+
+  font-size: 14px;
 }
+
+.back-btn:hover {
+  background: #00a844;
+}
+
+/* =========================================
+   INFORMATION CARD
+========================================= */
 
 .info-card-user {
   background: white;
+
   margin-top: 20px;
+
   padding: 20px;
+
   border-radius: 10px;
+
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  box-sizing: border-box;
 }
+
+.info-card-user h3 {
+  margin-top: 0;
+}
+
+/* =========================================
+   INFORMATION ROW
+========================================= */
 
 .info-row {
   display: flex;
+
   justify-content: space-between;
+
   padding: 15px 0;
+
   border-bottom: 1px solid #eee;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+/* =========================================
+   RIDE HISTORY
+========================================= */
+
+.ride-history-card {
+  margin-top: 25px;
+
+  width: 100%;
+
+  box-sizing: border-box;
+
+  overflow: hidden;
+}
+
+.ride-history-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 18px;
+}
+
+.ride-history-header h3 {
+  margin: 0;
+
+  font-size: 20px;
+
+  font-weight: 600;
+
+  color: #222;
+}
+
+/* =========================================
+   TABLE WRAPPER
+========================================= */
+
+.ride-table-wrapper {
+  width: 100%;
+
+  overflow-x: auto;
+
+  overflow-y: hidden;
+
+  border: 1px solid #e5e5e5;
+
+  border-radius: 8px;
+
+  box-sizing: border-box;
+}
+
+/* =========================================
+   TABLE
+========================================= */
+
+.ride-history-table {
+  width: 100%;
+  
+  min-width: 1120px;
+
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+/* =========================================
+   TABLE CELLS
+========================================= */
+
+.ride-history-table th,
+.ride-history-table td {
+  padding: 14px 12px;
+
+  text-align: left;
+
+  border-bottom: 1px solid #e5e5e5;
+
+  vertical-align: top;
+
+  box-sizing: border-box;
+}
+
+.ride-history-table th {
+  background: #f5f7f9;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  color: #333;
+
+  white-space: nowrap;
+
+  vertical-align: middle;
+}
+
+.ride-history-table td {
+  font-size: 14px;
+
+  color: #444;
+
+  background: #fff;
+}
+
+.ride-history-table tbody tr:hover td {
+  background: #fafafa;
+}
+
+/* =========================================
+   COLUMN WIDTHS
+========================================= */
+
+/* NUMBER */
+
+.ride-history-table th:nth-child(1),
+.ride-history-table td:nth-child(1) {
+  width: 50px;
+
+  text-align: center;
+}
+
+/* PICKUP */
+.ride-history-table th:nth-child(2),
+.ride-history-table td:nth-child(2) {
+  width: 300px;
+}
+
+/* DESTINATION */
+.ride-history-table th:nth-child(3),
+.ride-history-table td:nth-child(3) {
+  width: 300px;
+}
+/* DRIVER */
+
+.ride-history-table th:nth-child(4),
+.ride-history-table td:nth-child(4) {
+  width: 130px;
+}
+
+/* FARE */
+
+.ride-history-table th:nth-child(5),
+.ride-history-table td:nth-child(5) {
+  width: 110px;
+}
+
+/* STATUS */
+
+.ride-history-table th:nth-child(6),
+.ride-history-table td:nth-child(6) {
+  width: 120px;
+}
+
+/* DATE */
+
+.ride-history-table th:nth-child(7),
+.ride-history-table td:nth-child(7) {
+  width: 110px;
+}
+
+/* =========================================
+   NUMBER
+========================================= */
+
+.number-cell {
+  text-align: center !important;
+
+  font-weight: 500;
+
+  vertical-align: middle !important;
+}
+
+/* =========================================
+   LOCATION CELL
+========================================= */
+
+.location-cell {
+  vertical-align: top !important;
+  overflow: hidden;
+  padding: 14px 12px !important;
+}
+
+.location-content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+}
+
+/* =========================================
+   LOCATION DOT
+========================================= */
+
+.location-dot {
+  flex: 0 0 10px;
+  font-size: 10px;
+  line-height: 1.5;
+  margin-top: 2px;
+  list-style: none;
+}
+
+.pickup-dot {
+  color: #ff3b30;
+}
+
+.dropoff-dot {
+  color: #111;
+}
+
+/* =========================================
+   LOCATION TEXT
+========================================= */
+
+.location-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  display: block;
+
+  font-size: 14px;
+  line-height: 1.45;
+  color: #444;
+
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* =========================================
+   DRIVER
+========================================= */
+
+.driver-cell {
+  color: #00b84f !important;
+
+  font-weight: 500;
+
+  word-break: break-word;
+
+  overflow-wrap: anywhere;
+
+  vertical-align: middle !important;
+}
+
+/* =========================================
+   FARE
+========================================= */
+
+.fare-cell {
+  white-space: nowrap;
+
+  font-weight: 500;
+
+  vertical-align: middle !important;
+}
+
+/* =========================================
+   DATE
+========================================= */
+
+.date-cell {
+  white-space: nowrap;
+
+  vertical-align: middle !important;
+}
+
+/* =========================================
+   STATUS
+========================================= */
+
+.ride-status {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 5px 11px;
+
+  border-radius: 15px;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+.ride-status.completed {
+  background: #d4edda;
+
+  color: #155724;
+}
+
+.ride-status.cancelled {
+  background: #f8d7da;
+
+  color: #721c24;
+}
+
+.ride-status.accepted {
+  background: #d1ecf1;
+
+  color: #0c5460;
+}
+
+.ride-status.requested {
+  background: #fff3cd;
+
+  color: #856404;
+}
+
+.ride-status.pending {
+  background: #fff3cd;
+
+  color: #856404;
+}
+
+/* =========================================
+   REFRESH BUTTON
+========================================= */
+
+.refresh-ride-btn {
+  border: none;
+
+  padding: 8px 16px;
+
+  border-radius: 6px;
+
+  cursor: pointer;
+
+  background: #28a745;
+
+  color: white;
+
+  font-size: 14px;
+
+  font-weight: 500;
+}
+
+.refresh-ride-btn:hover {
+  background: #218838;
+}
+
+.refresh-ride-btn:disabled {
+  opacity: 0.6;
+
+  cursor: not-allowed;
+}
+
+/* =========================================
+   LOADING / EMPTY / ERROR
+========================================= */
+
+.ride-loading,
+.no-rides,
+.ride-error {
+  padding: 30px;
+
+  text-align: center;
+}
+
+.ride-error {
+  color: #dc3545;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1200px) {
+  .ride-history-table {
+    min-width: 1120px;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 12px;
+  }
+
+  .stats-user {
+    gap: 20px;
+
+    margin: 20px 10px;
+
+    flex-wrap: wrap;
+  }
+
+  .info-row {
+    flex-direction: column;
+
+    gap: 5px;
+  }
+
+  .ride-history-header {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 10px;
+  }
+
+  .ride-table-wrapper {
+    overflow-x: auto;
+  }
+
+  .ride-history-table {
+    min-width: 1120px;
+  }
+}
+
+.ride-history-table {
+  display: table !important;
+}
+
+.ride-history-table thead {
+  display: table-header-group !important;
+}
+
+.ride-history-table tbody {
+  display: table-row-group !important;
+}
+
+.ride-history-table tr {
+  display: table-row !important;
+}
+
+.ride-history-table th,
+.ride-history-table td {
+  display: table-cell !important;
+}
+
+.location-text,
+.location-dot,
+.location-content {
+  font-weight: 400 !important;
+}
+
+.location-dot {
+  display: inline-block !important;
+  list-style: none !important;
+  list-style-type: none !important;
+  list-style-position: outside !important;
+}
+
+.location-dot::marker {
+  content: "" !important;
+}
+
+.location-dot::before {
+  content: none !important;
+}
+
+.location-text {
+  list-style: none !important;
+  list-style-type: none !important;
+}
+
+.location-text::marker {
+  content: "" !important;
+}
+
+.ride-history-table td::before {
+  content: none !important;
+  display: none !important;
 }

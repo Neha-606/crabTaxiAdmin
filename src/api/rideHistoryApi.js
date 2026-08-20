@@ -27,7 +27,37 @@ export const getDriverRideHistory = async (
       "GET DRIVER RIDE HISTORY ERROR:",
       error.response?.data || error.message
     );
+    throw error;
+  }
+};
 
+// Customer ride history for Admin
+export const getCustomerRideHistory = async (
+  userId,
+  page = 1,
+  limit = 10,
+  status = ""
+) => {
+  try {
+    const response = await API.get(
+      `/api/v1/admin/rider/${userId}/rides/history`,
+      {
+        params: {
+          page,
+          limit,
+          ...(status && { status }),
+        },
+      }
+    );
+
+    console.log("CUSTOMER RIDE HISTORY RESPONSE:", response.data);
+
+    return response.data;
+  } catch (error) {
+    console.error(
+      "GET CUSTOMER RIDE HISTORY ERROR:",
+      error.response?.data || error.message
+    );
     throw error;
   }
 };
