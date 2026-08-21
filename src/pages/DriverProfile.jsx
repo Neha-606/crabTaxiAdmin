@@ -457,7 +457,11 @@ const handleRejectDoc = async () => {
 
          {/* Ride history */}
 
-  <div className="info-card ride-history-card">
+ {/* =========================
+    RIDE HISTORY
+========================= */}
+
+<div className="info-card ride-history-card">
   <div className="card-header">
     <h3>Ride History</h3>
   </div>
@@ -473,7 +477,7 @@ const handleRejectDoc = async () => {
       <table className="ride-history-table">
         <thead>
           <tr>
-            {/* <th>Rider</th> */}
+            <th>#</th>
             <th>Pickup</th>
             <th>Destination</th>
             <th>Fare</th>
@@ -483,35 +487,51 @@ const handleRejectDoc = async () => {
         </thead>
 
         <tbody>
-          {rideHistory.map((ride) => (
-            <tr key={ride._id}>
-              {/* <td>
-  {ride.passengerId?.phoneNumber || "N/A"}
-</td> */}
+          {rideHistory.map((ride, index) => (
+            <tr key={ride._id || index}>
 
-              <td>
-  {ride.pickupAddress || "Address not found"}
-</td>
+              {/* NUMBER */}
+              <td className="number-cell">
+                {index + 1}
+              </td>
 
-             <td>
-  {ride.dropoffAddress || "Address not found"}
-</td>
+              {/* PICKUP */}
+              <td className="address-cell">
+                <span className="pickup-dot"></span>
 
-              <td>
-  {ride.fare?.amount != null
-    ? `₹${ride.fare.amount}`
-    : "N/A"}
-</td>
+                <span>
+                  {ride.pickupAddress || "Address not found"}
+                </span>
+              </td>
 
-              <td>
+              {/* DESTINATION */}
+              <td className="address-cell">
+                <span className="destination-dot"></span>
+
+                <span>
+                  {ride.dropoffAddress || "Address not found"}
+                </span>
+              </td>
+
+              {/* FARE */}
+              <td className="fare-cell">
+                {ride?.fare?.amount != null
+                  ? `₹${ride.fare.amount}`
+                  : "N/A"}
+              </td>
+
+              {/* STATUS */}
+              <td className="status-cell">
                 {ride.status || "N/A"}
               </td>
 
-              <td>
+              {/* DATE */}
+              <td className="date-cell">
                 {ride.createdAt
                   ? new Date(ride.createdAt).toLocaleDateString()
                   : "N/A"}
               </td>
+
             </tr>
           ))}
         </tbody>
