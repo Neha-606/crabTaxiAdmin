@@ -1,9 +1,17 @@
+/* =========================================
+   MAIN CONTAINER
+========================================= */
+
 .requested-rides-container {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   padding: 30px;
   min-height: 100vh;
   background: #f5f7fb;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
-
 
 /* =========================================
    HEADER
@@ -14,6 +22,8 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 25px;
+  width: 100%;
+  min-width: 0;
 }
 
 .page-header h2 {
@@ -27,7 +37,6 @@
   margin-top: 7px;
   color: #6b7280;
 }
-
 
 /* =========================================
    REFRESH BUTTON
@@ -48,21 +57,20 @@
   background: #00a956;
 }
 
-
 /* =========================================
    COUNT
 ========================================= */
 
 .ride-count {
+  width: 100%;
+  box-sizing: border-box;
   background: white;
   padding: 18px 22px;
   border-radius: 10px;
   margin-bottom: 20px;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
@@ -76,23 +84,31 @@
   color: #00bf63;
 }
 
+/* =========================================
+   TABLE WRAPPER
+========================================= */
+
+.table-wrapper {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  background: white;
+  border-radius: 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+}
 
 /* =========================================
    TABLE
 ========================================= */
 
-.table-wrapper {
-  background: white;
-  border-radius: 12px;
-  overflow-x: auto;
-
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-}
-
 .rides-table {
   width: 100%;
-  min-width: 1100px;
+  min-width: 1050px;
   border-collapse: collapse;
+  table-layout: fixed;
 }
 
 .rides-table thead {
@@ -100,7 +116,7 @@
 }
 
 .rides-table th {
-  padding: 16px;
+  padding: 16px 10px;
   text-align: left;
   font-size: 13px;
   color: #4b5563;
@@ -109,17 +125,72 @@
 }
 
 .rides-table td {
-  padding: 16px;
+  padding: 16px 10px;
   border-bottom: 1px solid #f0f0f0;
   font-size: 14px;
   color: #374151;
   vertical-align: middle;
+  overflow-wrap: anywhere;
+  word-break: normal;
 }
 
 .rides-table tbody tr:hover {
   background: #fafafa;
 }
 
+/* =========================================
+   COLUMN WIDTHS
+========================================= */
+
+.rides-table th:nth-child(1),
+.rides-table td:nth-child(1) {
+  width: 4%;
+}
+
+.rides-table th:nth-child(2),
+.rides-table td:nth-child(2) {
+  width: 14%;
+}
+
+.rides-table th:nth-child(3),
+.rides-table td:nth-child(3) {
+  width: 9%;
+}
+
+.rides-table th:nth-child(4),
+.rides-table td:nth-child(4) {
+  width: 14%;
+}
+
+.rides-table th:nth-child(5),
+.rides-table td:nth-child(5) {
+  width: 14%;
+}
+
+.rides-table th:nth-child(6),
+.rides-table td:nth-child(6) {
+  width: 7%;
+}
+
+.rides-table th:nth-child(7),
+.rides-table td:nth-child(7) {
+  width: 7%;
+}
+
+.rides-table th:nth-child(8),
+.rides-table td:nth-child(8) {
+  width: 9%;
+}
+
+.rides-table th:nth-child(9),
+.rides-table td:nth-child(9) {
+  width: 11%;
+}
+
+.rides-table th:nth-child(10),
+.rides-table td:nth-child(10) {
+  width: 11%;
+}
 
 /* =========================================
    CUSTOMER
@@ -129,35 +200,38 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  min-width: 0;
 }
 
 .customer-avatar {
   width: 38px;
   height: 38px;
-
+  min-width: 38px;
   border-radius: 50%;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   background: #e6f8ef;
   color: #00a957;
-
   font-weight: 700;
+}
+
+.customer-cell > div:last-child {
+  min-width: 0;
 }
 
 .customer-cell strong {
   display: block;
   color: #111827;
+  overflow-wrap: anywhere;
 }
 
 .customer-cell small {
   display: block;
   margin-top: 3px;
   color: #9ca3af;
+  overflow-wrap: anywhere;
 }
-
 
 /* =========================================
    LOCATIONS
@@ -165,34 +239,58 @@
 
 .location-cell {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
 
-  max-width: 200px;
+.location-cell > span:last-child {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.25;
 }
 
 .pickup-dot {
   width: 9px;
   height: 9px;
-
+  min-width: 9px;
+  margin-top: 5px;
   border-radius: 50%;
-
   background: #00bf63;
-
   flex-shrink: 0;
 }
 
 .destination-dot {
   width: 9px;
   height: 9px;
-
+  min-width: 9px;
+  margin-top: 5px;
   border-radius: 50%;
-
   background: #ef4444;
-
   flex-shrink: 0;
 }
 
+/* =========================================
+   PHONE
+========================================= */
+
+.rides-table td:nth-child(3) {
+  overflow-wrap: anywhere;
+}
+
+/* =========================================
+   DISTANCE
+========================================= */
+
+.rides-table td:nth-child(6) {
+  white-space: normal;
+}
 
 /* =========================================
    FARE
@@ -200,8 +298,8 @@
 
 .fare {
   color: #111827;
+  white-space: nowrap;
 }
-
 
 /* =========================================
    STATUS
@@ -209,22 +307,37 @@
 
 .status-badge {
   display: inline-block;
-
   padding: 6px 12px;
-
   border-radius: 20px;
-
   background: #fff7df;
-
   color: #b77900;
-
   font-size: 12px;
-
   font-weight: 600;
-
   text-transform: capitalize;
+  white-space: nowrap;
 }
 
+/* =========================================
+   ASSIGN DRIVER BUTTON
+========================================= */
+
+.assign-driver-btn {
+  display: inline-block;
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.assign-driver-btn:hover {
+  background: #1d4ed8;
+}
 
 /* =========================================
    EMPTY
@@ -233,11 +346,8 @@
 .empty-box {
   background: white;
   border-radius: 12px;
-
   padding: 70px 20px;
-
   text-align: center;
-
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
 }
 
@@ -255,7 +365,6 @@
   color: #6b7280;
 }
 
-
 /* =========================================
    LOADING
 ========================================= */
@@ -263,14 +372,10 @@
 .loading-box {
   background: white;
   padding: 60px;
-
   border-radius: 12px;
-
   text-align: center;
-
   color: #6b7280;
 }
-
 
 /* =========================================
    ERROR
@@ -279,13 +384,9 @@
 .error-box {
   background: #fff1f2;
   border: 1px solid #fecdd3;
-
   color: #dc2626;
-
   padding: 15px 20px;
-
   border-radius: 8px;
-
   margin-bottom: 15px;
 }
 
@@ -293,21 +394,31 @@
   border: none;
   background: #00bf63;
   color: white;
-
   padding: 10px 20px;
-
   border-radius: 6px;
-
   cursor: pointer;
 }
 
+.retry-btn:hover {
+  background: #00a956;
+}
+
+/* =========================================
+   PREVENT PAGE HORIZONTAL SCROLL
+========================================= */
+
+html,
+body,
+#root {
+  max-width: 100%;
+  overflow-x: hidden;
+}
 
 /* =========================================
    MOBILE
 ========================================= */
 
 @media (max-width: 768px) {
-
   .requested-rides-container {
     padding: 15px;
   }
@@ -326,4 +437,16 @@
     width: 100%;
   }
 
+  .ride-count {
+    padding: 15px;
+  }
+
+  .table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .rides-table {
+    min-width: 1050px;
+  }
 }
