@@ -11,6 +11,7 @@ import RiderProfile from "./pages/RiderProfile";
 import ResetPassword from "./pages/ResetPassword";
 import BookRide from "./pages/BookRide";
 import RequestedRides from "./pages/RequestedRides";
+import BirdView from "./pages/BirdView";
 
 import { Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
@@ -163,6 +164,23 @@ function App() {
           <Header />
           <div className="content">
             <RequestedRides />
+          </div>
+        </div>
+      </div>
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/bird-view"
+  element={
+    <PrivateRoute>
+      <div className="app">
+        <Sidebar />
+        <div className="main">
+          <Header />
+          <div className="content">
+            <BirdView />
           </div>
         </div>
       </div>

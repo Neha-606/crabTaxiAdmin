@@ -102,10 +102,12 @@ export default function Sidebar() {
           <span>Trips</span>
         </li>
 
-        <li>
-          <FaMapMarkerAlt />
-          <span>Bird Eye View</span>
-        </li>
+        <li className={isActive("/bird-view") ? "active" : ""}>
+  <Link to="/bird-view" className="menu-link">
+    <FaMapMarkerAlt />
+    <span>Bird Eye View</span>
+  </Link>
+</li>
 
         <li>
           <FaBullhorn />

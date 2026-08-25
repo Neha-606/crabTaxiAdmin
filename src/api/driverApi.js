@@ -20,7 +20,7 @@ export const getDrivers = async () => {
   try {
     const res = await API.get("/admin/drivers");
 
-    return res.data.data || []; // FIX HERE
+    return res.data.data || []; 
   } catch (error) {
     console.error("Error fetching drivers:", error);
     throw error;
@@ -29,7 +29,7 @@ export const getDrivers = async () => {
 
 export const getSingleDriver = (id) => {
   return API.post("/admin/single-driver", {
-    userId: id, // this should be driverProfile._id
+    userId: id, 
   });
 };
 
@@ -37,9 +37,18 @@ export const getNotApprovedDrivers = async () => {
   try {
     const res = await API.get("/admin/not-approved-drivers");
 
-    return res.data.data || []; // SAME FIX
+    return res.data.data || []; 
   } catch (error) {
     console.error("Error fetching not approved drivers:", error);
     throw error;
   }
+};
+
+// availavle driver
+export const getAvailableDrivers = async () => {
+  const response = await API.get(
+    "/admin/drivers/available"
+  );
+
+  return response.data;
 };
