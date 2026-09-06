@@ -1,10 +1,7 @@
 import { useState } from "react";
 import "./BookRide.css";
 
-import {
-  registerUser,
-  createRideByAdmin,
-} from "../api/authApi";
+import { registerUser, createRideByAdmin } from "../api/authApi";
 
 import { getCoordinates } from "../services/geoapify";
 
@@ -31,7 +28,7 @@ export default function BookRide() {
   const [ride, setRide] = useState({
     pickup: "",
     destination: "",
-    vehicleType: "Mini",
+    vehicleType: "SEDAN",
   });
 
   // =========================
@@ -130,7 +127,6 @@ export default function BookRide() {
 
       console.log("REGISTER CUSTOMER RESPONSE:", response);
 
-      // Try different possible response structures
       const newCustomerId =
         response?.data?.data?._id ||
         response?.data?.data?.user?._id ||
@@ -141,7 +137,7 @@ export default function BookRide() {
 
       if (!newCustomerId) {
         throw new Error(
-          "Customer registered but Customer ID was not returned."
+          "Customer registered but Customer ID was not returned.",
         );
       }
 
@@ -155,7 +151,6 @@ export default function BookRide() {
       // IMPORTANT:
       // Ride Details is STEP 2
       setStep(2);
-
     } catch (err) {
       console.error("CUSTOMER REGISTER ERROR:", err);
 
@@ -165,7 +160,6 @@ export default function BookRide() {
         "Customer registration failed.";
 
       setError(message);
-
     } finally {
       setLoading(false);
     }
@@ -203,37 +197,24 @@ export default function BookRide() {
       // CONVERT PICKUP TO COORDINATES
       // =========================
 
-      const pickupCoordinates = await getCoordinates(
-        ride.pickup
-      );
+      const pickupCoordinates = await getCoordinates(ride.pickup);
 
-      console.log(
-        "PICKUP COORDINATES:",
-        pickupCoordinates
-      );
+      console.log("PICKUP COORDINATES:", pickupCoordinates);
 
       if (!pickupCoordinates) {
-        throw new Error(
-          `Pickup location could not be found: ${ride.pickup}`
-        );
+        throw new Error(`Pickup location could not be found: ${ride.pickup}`);
       }
 
       // =========================
       // CONVERT DESTINATION
       // =========================
 
-      const destinationCoordinates =
-        await getCoordinates(ride.destination);
+      const destinationCoordinates = await getCoordinates(ride.destination);
 
-      console.log(
-        "DESTINATION COORDINATES:",
-        destinationCoordinates
-      );
+      console.log("DESTINATION COORDINATES:", destinationCoordinates);
 
       if (!destinationCoordinates) {
-        throw new Error(
-          `Destination could not be found: ${ride.destination}`
-        );
+        throw new Error(`Destination could not be found: ${ride.destination}`);
       }
 
       // =========================
@@ -252,6 +233,8 @@ export default function BookRide() {
           lat: Number(destinationCoordinates.lat),
           lng: Number(destinationCoordinates.lng),
         },
+
+        vehicleCategory: ride.vehicleType,
       };
 
       console.log("CREATE RIDE DATA:", data);
@@ -263,9 +246,7 @@ export default function BookRide() {
         !Number.isFinite(data.dropoff.lat) ||
         !Number.isFinite(data.dropoff.lng)
       ) {
-        throw new Error(
-          "Invalid coordinates received from Geoapify."
-        );
+        throw new Error("Invalid coordinates received from Geoapify.");
       }
 
       // =========================
@@ -274,17 +255,13 @@ export default function BookRide() {
 
       const response = await createRideByAdmin(data);
 
-      console.log(
-        "CREATE RIDE RESPONSE:",
-        response
-      );
+      console.log("CREATE RIDE RESPONSE:", response);
 
       // Save ride response
       setRideInfo(response?.data?.data || response?.data);
 
       // Show success page
       setStep(3);
-
     } catch (err) {
       console.error("CREATE RIDE ERROR:", err);
 
@@ -294,7 +271,6 @@ export default function BookRide() {
         "Failed to create ride.";
 
       setError(message);
-
     } finally {
       setLoading(false);
     }
@@ -329,7 +305,6 @@ export default function BookRide() {
 
   return (
     <div className="bookride-container">
-
       <div className="bookride-header">
         <h2>Book Ride For Client</h2>
         <p>Create a customer and book a ride from the admin panel.</p>
@@ -340,7 +315,6 @@ export default function BookRide() {
       ========================= */}
 
       <div className="steps">
-
         <div className={`step ${step >= 1 ? "active" : ""}`}>
           <span>1</span>
           <p>Customer</p>
@@ -359,7 +333,6 @@ export default function BookRide() {
           <span>3</span>
           <p>Completed</p>
         </div>
-
       </div>
 
       {/* ERROR */}
@@ -377,14 +350,12 @@ export default function BookRide() {
 
       {step === 1 && (
         <div className="card">
-
           <div className="card-header">
             <h3>Create New Customer</h3>
             <p>Enter customer information.</p>
           </div>
 
           <div className="form-grid">
-
             {/* FULL NAME */}
 
             <div className="form-group">
@@ -437,21 +408,13 @@ export default function BookRide() {
                 value={customer.gender}
                 onChange={handleCustomerChange}
               >
-                <option value="">
-                  Select Gender
-                </option>
+                <option value="">Select Gender</option>
 
-                <option value="Male">
-                  Male
-                </option>
+                <option value="Male">Male</option>
 
-                <option value="Female">
-                  Female
-                </option>
+                <option value="Female">Female</option>
 
-                <option value="Other">
-                  Other
-                </option>
+                <option value="Other">Other</option>
               </select>
             </div>
 
@@ -482,22 +445,13 @@ export default function BookRide() {
                 onChange={handleCustomerChange}
               />
             </div>
-
           </div>
 
           <div className="button-area">
-
-            <button
-              onClick={registerCustomer}
-              disabled={loading}
-            >
-              {loading
-                ? "Creating Customer..."
-                : "Continue"}
+            <button onClick={registerCustomer} disabled={loading}>
+              {loading ? "Creating Customer..." : "Continue"}
             </button>
-
           </div>
-
         </div>
       )}
 
@@ -507,7 +461,6 @@ export default function BookRide() {
 
       {step === 2 && (
         <div className="card">
-
           <div className="card-header">
             <h3>Ride Details</h3>
             <p>Enter pickup and destination.</p>
@@ -516,11 +469,9 @@ export default function BookRide() {
           {/* CUSTOMER SUMMARY */}
 
           <div className="customer-summary">
-
             <h4>Customer Information</h4>
 
             <div className="summary-grid">
-
               <div>
                 <span>Name</span>
                 <strong>{customer.fullName}</strong>
@@ -540,22 +491,16 @@ export default function BookRide() {
                 <span>Gender</span>
                 <strong>{customer.gender}</strong>
               </div>
-
             </div>
-
           </div>
 
           {/* RIDE FORM */}
 
           <div className="ride-form">
-
             {/* PICKUP */}
 
             <div className="form-group">
-
-              <label>
-                Pickup Location
-              </label>
+              <label>Pickup Location</label>
 
               <input
                 type="text"
@@ -566,19 +511,14 @@ export default function BookRide() {
               />
 
               <small>
-                Location will automatically be converted
-                into coordinates.
+                Location will automatically be converted into coordinates.
               </small>
-
             </div>
 
             {/* DESTINATION */}
 
             <div className="form-group">
-
-              <label>
-                Destination
-              </label>
+              <label>Destination</label>
 
               <input
                 type="text"
@@ -589,46 +529,31 @@ export default function BookRide() {
               />
 
               <small>
-                Location will automatically be converted
-                into coordinates.
+                Location will automatically be converted into coordinates.
               </small>
-
             </div>
 
             {/* VEHICLE */}
 
             <div className="form-group">
-
-              <label>
-                Vehicle Type
-              </label>
+              <label>Vehicle Type</label>
 
               <select
                 name="vehicleType"
                 value={ride.vehicleType}
                 onChange={handleRideChange}
               >
-                <option value="Mini">
-                  Mini
-                </option>
-
-                <option value="Sedan">
-                  Sedan
-                </option>
-
-                <option value="SUV">
-                  SUV
-                </option>
+                <option value="SEDAN">Sedan</option>
+                <option value="TWO_WHEELER">Two Wheeler</option>
+                <option value="SUV">SUV</option>
+                <option value="PREMIUM_SUV">Premium SUV</option>
               </select>
-
             </div>
-
           </div>
 
           {/* BUTTONS */}
 
           <div className="button-area">
-
             <button
               className="secondary-button"
               onClick={() => setStep(1)}
@@ -637,17 +562,10 @@ export default function BookRide() {
               Back
             </button>
 
-            <button
-              onClick={bookRide}
-              disabled={loading}
-            >
-              {loading
-                ? "Booking Ride..."
-                : "Book Ride"}
+            <button onClick={bookRide} disabled={loading}>
+              {loading ? "Booking Ride..." : "Book Ride"}
             </button>
-
           </div>
-
         </div>
       )}
 
@@ -657,142 +575,99 @@ export default function BookRide() {
 
       {step === 3 && (
         <div className="card success-card">
+          <div className="success-icon">✓</div>
 
-          <div className="success-icon">
-            ✓
-          </div>
+          <h3>Ride Booked Successfully</h3>
 
-          <h3>
-            Ride Booked Successfully
-          </h3>
-
-          <p>
-            The ride has been created successfully.
-          </p>
+          <p>The ride has been created successfully.</p>
 
           {/* CUSTOMER */}
 
           <div className="success-section">
-
             <h4>Customer Information</h4>
 
             <div className="success-grid">
-
               <div>
                 <span>Name</span>
-                <strong>
-                  {customer.fullName}
-                </strong>
+                <strong>{customer.fullName}</strong>
               </div>
 
               <div>
                 <span>Phone</span>
-                <strong>
-                  {customer.phoneNumber}
-                </strong>
+                <strong>{customer.phoneNumber}</strong>
               </div>
 
               <div>
                 <span>Email</span>
-                <strong>
-                  {customer.email}
-                </strong>
+                <strong>{customer.email}</strong>
               </div>
-
             </div>
-
           </div>
 
           {/* RIDE INFORMATION */}
 
           <div className="success-section">
-
             <h4>Ride Information</h4>
 
             <div className="success-grid">
-
               <div className="location-box">
                 <span>Pickup</span>
 
-                <strong>
-                  {ride.pickup}
-                </strong>
+                <strong>{ride.pickup}</strong>
               </div>
 
               <div className="location-box">
                 <span>Destination</span>
 
-                <strong>
-                  {ride.destination}
-                </strong>
+                <strong>{ride.destination}</strong>
               </div>
 
               <div>
                 <span>Vehicle</span>
 
-                <strong>
-                  {ride.vehicleType}
-                </strong>
+                <strong>{ride.vehicleType}</strong>
               </div>
 
               <div>
                 <span>Status</span>
 
-                <strong className="status">
-                  Searching for Driver
-                </strong>
+                <strong className="status">Searching for Driver</strong>
               </div>
-
             </div>
-
           </div>
 
           {/* COORDINATES */}
 
           {rideInfo && (
             <div className="success-section">
-
               <h4>Ride Details</h4>
 
               <div className="ride-response">
-
                 <p>
                   <strong>Ride ID:</strong>{" "}
-                  {rideInfo?._id ||
-                    rideInfo?.rideId ||
-                    "Created"}
+                  {rideInfo?._id || rideInfo?.rideId || "Created"}
                 </p>
 
                 <p>
-                  <strong>Pickup:</strong>{" "}
-                  {ride.pickup}
+                  <strong>Pickup:</strong> {ride.pickup}
                 </p>
 
                 <p>
-                  <strong>Destination:</strong>{" "}
-                  {ride.destination}
+                  <strong>Destination:</strong> {ride.destination}
                 </p>
 
                 <p>
-                  <strong>Vehicle:</strong>{" "}
-                  {ride.vehicleType}
+                  <strong>Vehicle:</strong> {ride.vehicleType}
                 </p>
-
               </div>
-
             </div>
           )}
 
-          <button
-            className="new-ride-button"
-            onClick={resetBookRide}
-          >
+          <button className="new-ride-button" onClick={resetBookRide}>
             Book Another Ride
           </button>
-
         </div>
       )}
-
     </div>
   );
 }
