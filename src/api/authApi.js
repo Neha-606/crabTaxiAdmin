@@ -41,3 +41,47 @@ export const getRequestedRides = async () => {
     throw err.response?.data || err;
   }
 };
+
+
+export const getAvailableDrivers = async () => {
+  const response = await API.get("/api/v1/admin/drivers/available");
+  return response.data;
+};
+
+export const assignDriverToRide = async ({
+  rideId,
+  driverId,
+  vehicleCategory,
+}) => {
+  try {
+    console.log("ASSIGN DRIVER REQUEST:", {
+      rideId,
+      driverId,
+      vehicleCategory,
+    });
+
+    const response = await API.patch(
+      `/api/v1/admin/rides/${rideId}/assign-driver`,
+      {
+        driverId,
+        vehicleCategory,
+      }
+    );
+
+    console.log("ASSIGN DRIVER RESPONSE:", response.data);
+
+    return response.data;
+  } catch (error) {
+    console.error(
+      "ASSIGN DRIVER API ERROR:",
+      error.response?.data || error.message
+    );
+
+    console.error(
+      "ASSIGN DRIVER STATUS:",
+      error.response?.status
+    );
+
+    throw error;
+  }
+};
