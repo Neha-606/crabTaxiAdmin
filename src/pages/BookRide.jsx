@@ -125,7 +125,10 @@ export default function BookRide() {
 
       const response = await registerUser(registerData);
 
-      console.log("REGISTER CUSTOMER RESPONSE:", response);
+      console.log(
+  "REGISTER CUSTOMER RESPONSE:",
+  JSON.stringify(response?.data, null, 2)
+);
 
       const newCustomerId =
         response?.data?.data?._id ||
