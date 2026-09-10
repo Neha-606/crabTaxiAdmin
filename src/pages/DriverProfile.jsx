@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./DriverProfile.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import { FaCheckCircle, FaDollarSign, FaStar } from "react-icons/fa";
+import { FaCheckCircle, FaStar } from "react-icons/fa";
 
 import {
   rejectDriverDocument,
@@ -15,11 +15,53 @@ import {
 } from "../api/earningsApi";
 
 import { approveVehicle, rejectVehicle } from "../api/vehicleApi";
-
 import { approveProfile, rejectProfile } from "../api/profileApi";
-
 import { getDriverRideHistory } from "../api/rideHistoryApi";
 import { getAddressFromCoordinates } from "../services/geoapify";
+
+// ============================================================
+// WEEK DATE RANGE
+// ============================================================
+
+const getWeekDateRange = (year, week) => {
+  if (!year || !week) {
+    return "N/A";
+  }
+
+  // ISO week starts on Monday
+  const jan4 = new Date(year, 0, 4);
+
+  const dayOfWeek = jan4.getDay() || 7;
+
+  // Find Monday of ISO week 1
+  const mondayOfWeek1 = new Date(jan4);
+
+  mondayOfWeek1.setDate(jan4.getDate() - dayOfWeek + 1);
+
+  // Find Monday of requested week
+  const monday = new Date(mondayOfWeek1);
+
+  monday.setDate(mondayOfWeek1.getDate() + (week - 1) * 7);
+
+  // Find Sunday
+  const sunday = new Date(monday);
+
+  sunday.setDate(monday.getDate() + 6);
+
+  const formatDate = (date) => {
+    return date.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  };
+
+  return `${formatDate(monday)} - ${formatDate(sunday)}`;
+};
+
+// ============================================================
+// COMPONENT
+// ============================================================
 
 const DriverProfile = () => {
   const { state } = useLocation();
@@ -34,14 +76,22 @@ const DriverProfile = () => {
   const [historyError, setHistoryError] = useState("");
 
   const [driverEarnings, setDriverEarnings] = useState(null);
+
   const [dailyEarnings, setDailyEarnings] = useState([]);
+
   const [weeklyEarningsHistory, setWeeklyEarningsHistory] = useState([]);
+
   const [earningsLoading, setEarningsLoading] = useState(false);
+
   const [dailyEarningsLoading, setDailyEarningsLoading] = useState(false);
+
   const [weeklyEarningsLoading, setWeeklyEarningsLoading] = useState(false);
+
   const [earningsError, setEarningsError] = useState("");
 
-  // ================= DRIVER EARNINGS =================
+  // ============================================================
+  // DRIVER EARNINGS
+  // ============================================================
 
   useEffect(() => {
     if (!driver?._id) return;
@@ -52,8 +102,11 @@ const DriverProfile = () => {
         setEarningsError("");
 
         const data = await getDriverEarnings(driver._id);
+
         setDriverEarnings(data);
       } catch (error) {
+        console.error("Error fetching driver earnings:", error);
+
         setEarningsError(
           error?.response?.data?.message ||
             error?.message ||
@@ -67,6 +120,10 @@ const DriverProfile = () => {
     fetchEarnings();
   }, [driver?._id]);
 
+  // ============================================================
+  // DAILY EARNINGS
+  // ============================================================
+
   useEffect(() => {
     if (!driver?._id) return;
 
@@ -75,6 +132,9 @@ const DriverProfile = () => {
         setDailyEarningsLoading(true);
 
         const response = await getDriverDailyEarnings(driver._id);
+
+        console.log("DAILY EARNINGS RESPONSE:", response);
+
         setDailyEarnings(Array.isArray(response?.data) ? response.data : []);
       } catch (error) {
         console.error("Error fetching daily earnings:", error);
@@ -86,6 +146,10 @@ const DriverProfile = () => {
     fetchDailyEarnings();
   }, [driver?._id]);
 
+  // ============================================================
+  // WEEKLY EARNINGS
+  // ============================================================
+
   useEffect(() => {
     if (!driver?._id) return;
 
@@ -94,6 +158,16 @@ const DriverProfile = () => {
         setWeeklyEarningsLoading(true);
 
         const response = await getDriverWeeklyEarnings(driver._id);
+
+        console.log("WEEKLY EARNINGS FULL RESPONSE:", response);
+
+        console.log("WEEKLY EARNINGS DATA:", response?.data);
+
+        console.log(
+          "WEEKLY FIRST ID:",
+          JSON.stringify(response?.data?.[0]?._id, null, 2),
+        );
+
         setWeeklyEarningsHistory(
           Array.isArray(response?.data) ? response.data : [],
         );
@@ -107,7 +181,9 @@ const DriverProfile = () => {
     fetchWeeklyEarnings();
   }, [driver?._id]);
 
-  // ================= DRIVER RIDE HISTORY =================
+  // ============================================================
+  // DRIVER RIDE HISTORY
+  // ============================================================
 
   useEffect(() => {
     if (!driver?._id) return;
@@ -118,11 +194,13 @@ const DriverProfile = () => {
         setHistoryError("");
 
         const response = await getDriverRideHistory(driver._id);
+
         const rides = response?.data?.rides || [];
 
         const ridesWithAddresses = await Promise.all(
           rides.map(async (ride) => {
             let pickupAddress = "Address not found";
+
             let dropoffAddress = "Address not found";
 
             if (ride.pickup?.lat != null && ride.pickup?.lng != null) {
@@ -151,6 +229,8 @@ const DriverProfile = () => {
 
         setRideHistory(ridesWithAddresses);
       } catch (error) {
+        console.error("Error fetching ride history:", error);
+
         setHistoryError(
           error?.response?.data?.message ||
             error?.message ||
@@ -164,12 +244,15 @@ const DriverProfile = () => {
     fetchRideHistory();
   }, [driver?._id]);
 
-  // ================= NO DRIVER =================
+  // ============================================================
+  // NO DRIVER
+  // ============================================================
 
   if (!driver) {
     return (
       <div className="driver-container">
         <h2>No Driver Data</h2>
+
         <button onClick={() => navigate(-1)} className="back-btn">
           Go Back
         </button>
@@ -177,17 +260,26 @@ const DriverProfile = () => {
     );
   }
 
+  // ============================================================
+  // DATA
+  // ============================================================
+
   const docs = driver.documents;
 
   const earningsData =
     driverEarnings?.data || driverEarnings?.result || driverEarnings || {};
 
   const todayEarnings = Number(earningsData?.todayEarnings ?? 0);
+
   const todayRides = Number(earningsData?.todayRides ?? 0);
+
   const weeklyEarnings = Number(earningsData?.weeklyEarnings ?? 0);
+
   const weeklyRides = Number(earningsData?.weeklyRides ?? 0);
 
-  // ================= PROFILE =================
+  // ============================================================
+  // PROFILE ACTIONS
+  // ============================================================
 
   const handleApproveProfile = async () => {
     if (
@@ -200,27 +292,34 @@ const DriverProfile = () => {
 
     try {
       await approveProfile(driver._id);
+
       alert("Profile Approved");
+
       window.location.reload();
     } catch (err) {
-      alert(err.response?.data?.message || "Profile Approve Failed");
+      alert(err?.response?.data?.message || "Profile Approve Failed");
     }
   };
 
   const handleRejectProfile = async () => {
     const reason = prompt("Enter rejection reason:");
+
     if (!reason) return;
 
     try {
       await rejectProfile(driver._id, reason);
+
       alert("Profile Rejected");
+
       window.location.reload();
     } catch (err) {
-      alert(err.response?.data?.message || "Profile Reject Failed");
+      alert(err?.response?.data?.message || "Profile Reject Failed");
     }
   };
 
-  // ================= DOCUMENT =================
+  // ============================================================
+  // DOCUMENT ACTIONS
+  // ============================================================
 
   const handleApproveDoc = async () => {
     try {
@@ -234,9 +333,10 @@ const DriverProfile = () => {
       }
 
       alert("Documents Approved");
+
       window.location.reload();
     } catch (err) {
-      const message = err?.message || err?.response?.data?.message;
+      const message = err?.response?.data?.message || err?.message;
 
       if (message === "documents already approved by admin!") {
         alert("⚠ Documents are already approved by admin!");
@@ -248,6 +348,7 @@ const DriverProfile = () => {
 
   const handleRejectDoc = async () => {
     const reason = prompt("Enter rejection reason:");
+
     if (!reason) return;
 
     try {
@@ -257,46 +358,60 @@ const DriverProfile = () => {
       });
 
       alert("Documents Rejected");
+
       window.location.reload();
     } catch (err) {
-      alert(err.response?.data?.message || "Reject Failed");
+      alert(err?.response?.data?.message || "Reject Failed");
     }
   };
 
-  // ================= VEHICLE =================
+  // ============================================================
+  // VEHICLE ACTIONS
+  // ============================================================
 
   const handleApproveVehicle = async () => {
     try {
       await approveVehicle(driver.vehicle?.driverProfileId);
+
       alert("Vehicle Approved");
+
       window.location.reload();
     } catch (err) {
-      alert(err.response?.data?.message || "Vehicle Approve Failed");
+      alert(err?.response?.data?.message || "Vehicle Approve Failed");
     }
   };
 
   const handleRejectVehicle = async () => {
     const reason = prompt("Enter rejection reason:");
+
     if (!reason) return;
 
     try {
       await rejectVehicle(driver.vehicle?.driverProfileId, reason);
+
       alert("Vehicle Rejected ❌");
+
       window.location.reload();
     } catch (err) {
-      alert(err.response?.data?.message || "Vehicle Reject Failed");
+      alert(err?.response?.data?.message || "Vehicle Reject Failed");
     }
   };
 
-  // ================= UI =================
+  // ============================================================
+  // UI
+  // ============================================================
 
   return (
     <div className="driver-container">
+      {/* PAGE TITLE */}
+
       <h2 className="page-title">
         <span>Drivers</span> / Profile
       </h2>
 
-      {/* ================= PROFILE CARD ================= */}
+      {/* ========================================================
+          PROFILE CARD
+      ======================================================== */}
 
       <div className="top-section">
         <div className="profile-card">
@@ -332,11 +447,13 @@ const DriverProfile = () => {
                     ? new Date(driver.createdAt).toLocaleDateString()
                     : "N/A"}
                 </p>
+
                 <span>Member Since</span>
               </div>
 
               <div>
                 <p>{driver.driverProfile?.accountStatus || "N/A"}</p>
+
                 <span>Status</span>
               </div>
 
@@ -344,6 +461,7 @@ const DriverProfile = () => {
                 <p>
                   <FaStar /> {driver.driverProfile?.rating ?? "N/A"}
                 </p>
+
                 <span>Rating</span>
               </div>
             </div>
@@ -355,7 +473,9 @@ const DriverProfile = () => {
         </div>
       </div>
 
-      {/* ================= PERSONAL INFO + STATS (same row) ================= */}
+      {/* ========================================================
+          PERSONAL INFORMATION + APPROVAL
+      ======================================================== */}
 
       <div className="profile-stats-grid">
         <div className="info-card personal-card">
@@ -365,21 +485,25 @@ const DriverProfile = () => {
 
           <div className="info-row">
             <span>Name</span>
+
             <p>{driver.driverProfile?.fullname || "N/A"}</p>
           </div>
 
           <div className="info-row">
             <span>Email</span>
+
             <p>{driver.email || "N/A"}</p>
           </div>
 
           <div className="info-row">
             <span>Phone</span>
+
             <p>{driver.phoneNumber || "N/A"}</p>
           </div>
 
           <div className="info-row">
             <span>Location</span>
+
             <p>
               {driver.driverProfile?.address?.[0]
                 ? `${driver.driverProfile.address[0].area}, ${driver.driverProfile.address[0].city}`
@@ -388,38 +512,22 @@ const DriverProfile = () => {
           </div>
         </div>
 
-        {/* <div className="stats"> */}
-        {/* <div className="stat-box">
-            <h4>Total Trips</h4>
-            <p>{driver.totalTrips ?? 0}</p>
-            <FaCheckCircle className="icon green" />
-          </div> */}
-
         <div className="stat-box">
           <h4>Approval Status</h4>
+
           <p>{driver.driverProfile?.profileApprovalStatus || "N/A"}</p>
+
           <FaCheckCircle className="icon green" />
         </div>
-
-        {/* <div className="stat-box earnings-stat-box">
-            <h4>Driver Earnings</h4>
-
-            {earningsLoading ? (
-              <p>Loading...</p>
-            ) : earningsError ? (
-              <p className="red">Error</p>
-            ) : (
-              <p>₹{todayEarnings.toLocaleString("en-IN")}</p>
-            )}
-
-            <FaDollarSign className="icon green" />
-          </div> */}
-        {/* </div> */}
       </div>
 
-      {/* ================= DOCUMENTS + VEHICLE (same row) ================= */}
+      {/* ========================================================
+          DOCUMENTS + VEHICLE
+      ======================================================== */}
 
       <div className="documents-vehicle-grid">
+        {/* DOCUMENTS */}
+
         <div className="info-card documents-card">
           <div className="card-header">
             <h3>Documents</h3>
@@ -457,9 +565,11 @@ const DriverProfile = () => {
                           <p>
                             <b>No:</b> {doc.credentials.documentNumber || "N/A"}
                           </p>
+
                           <p>
                             <b>Issue:</b> {doc.credentials.issuedAt || "N/A"}
                           </p>
+
                           <p>
                             <b>Expiry:</b> {doc.credentials.expiryDate || "N/A"}
                           </p>
@@ -474,7 +584,12 @@ const DriverProfile = () => {
             );
           })}
 
-          <div className="doc-actions" style={{ marginTop: "20px" }}>
+          <div
+            className="doc-actions"
+            style={{
+              marginTop: "20px",
+            }}
+          >
             <button className="approve-btn" onClick={handleApproveDoc}>
               Approve All Documents
             </button>
@@ -484,6 +599,8 @@ const DriverProfile = () => {
             </button>
           </div>
         </div>
+
+        {/* VEHICLE */}
 
         <div className="info-card vehicle-card">
           <div className="card-header">
@@ -514,6 +631,7 @@ const DriverProfile = () => {
 
               <div className="info-row">
                 <span>Number Plate</span>
+
                 <span className="green">
                   {driver.vehicle.numberPlateNumber || "N/A"}
                 </span>
@@ -536,12 +654,15 @@ const DriverProfile = () => {
 
           <div className="doc-actions">
             <button onClick={handleApproveVehicle}>Approve</button>
+
             <button onClick={handleRejectVehicle}>Reject</button>
           </div>
         </div>
       </div>
 
-      {/* ================= EARNINGS SUMMARY (full width) ================= */}
+      {/* ========================================================
+          EARNINGS SUMMARY
+      ======================================================== */}
 
       <div className="info-card earnings-card">
         <div className="card-header">
@@ -556,30 +677,40 @@ const DriverProfile = () => {
           <div className="earnings-summary-grid">
             <div className="earning-summary-item">
               <span>Today's Earnings</span>
+
               <strong>₹{todayEarnings.toLocaleString("en-IN")}</strong>
             </div>
 
             <div className="earning-summary-item">
               <span>Today's Rides</span>
+
               <strong>{todayRides}</strong>
             </div>
 
             <div className="earning-summary-item">
               <span>Weekly Earnings</span>
+
               <strong>₹{weeklyEarnings.toLocaleString("en-IN")}</strong>
             </div>
 
             <div className="earning-summary-item">
               <span>Weekly Rides</span>
+
               <strong>{weeklyRides}</strong>
             </div>
           </div>
         )}
       </div>
 
-      {/* ================= DAILY + WEEKLY EARNINGS HISTORY (same row) ================= */}
+      {/* ========================================================
+          DAILY + WEEKLY EARNINGS HISTORY
+      ======================================================== */}
 
       <div className="earning-history-grid">
+        {/* ======================================================
+            DAILY
+        ====================================================== */}
+
         <div className="info-card earning-history-card">
           <div className="card-header">
             <h3>Daily Earnings History</h3>
@@ -599,17 +730,24 @@ const DriverProfile = () => {
                     <th>Amount</th>
                   </tr>
                 </thead>
+
                 <tbody>
                   {dailyEarnings.map((earning, index) => (
-                    <tr key={earning._id || index}>
+                    <tr key={earning?._id ? String(earning._id) : index}>
                       <td>{index + 1}</td>
+
                       <td>
                         {earning.date
-                          ? new Date(earning.date).toLocaleDateString()
+                          ? new Date(earning.date).toLocaleDateString("en-IN")
                           : "N/A"}
                       </td>
+
                       <td>
-                        ₹{Number(earning.amount ?? 0).toLocaleString("en-IN")}
+                        ₹
+                        {Number(earning.amount ?? 0).toLocaleString("en-IN", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
                       </td>
                     </tr>
                   ))}
@@ -618,6 +756,10 @@ const DriverProfile = () => {
             </div>
           )}
         </div>
+
+        {/* ======================================================
+            WEEKLY
+        ====================================================== */}
 
         <div className="info-card earning-history-card">
           <div className="card-header">
@@ -634,21 +776,36 @@ const DriverProfile = () => {
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th>Date</th>
+                    <th>Week</th>
+                    <th>Rides</th>
                     <th>Amount</th>
                   </tr>
                 </thead>
+
                 <tbody>
                   {weeklyEarningsHistory.map((earning, index) => (
-                    <tr key={earning._id || index}>
+                    <tr
+                      key={`${earning?._id?.year}-${earning?._id?.week}-${index}`}
+                    >
                       <td>{index + 1}</td>
+
                       <td>
-                        {earning.date
-                          ? new Date(earning.date).toLocaleDateString()
+                        {earning?._id?.year && earning?._id?.week
+                          ? getWeekDateRange(earning._id.year, earning._id.week)
                           : "N/A"}
                       </td>
+
+                      <td>{Number(earning?.totalRides ?? 0)}</td>
+
                       <td>
-                        ₹{Number(earning.amount ?? 0).toLocaleString("en-IN")}
+                        ₹
+                        {Number(earning?.totalEarnings ?? 0).toLocaleString(
+                          "en-IN",
+                          {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          },
+                        )}
                       </td>
                     </tr>
                   ))}
@@ -659,7 +816,9 @@ const DriverProfile = () => {
         </div>
       </div>
 
-      {/* ================= RIDE HISTORY (full width) ================= */}
+      {/* ========================================================
+          RIDE HISTORY
+      ======================================================== */}
 
       <div className="info-card ride-history-card">
         <div className="card-header">
@@ -685,18 +844,21 @@ const DriverProfile = () => {
                   <th>Date</th>
                 </tr>
               </thead>
+
               <tbody>
                 {rideHistory.map((ride, index) => (
-                  <tr key={ride._id || index}>
+                  <tr key={ride?._id || index}>
                     <td className="number-cell">{index + 1}</td>
 
                     <td className="address-cell">
                       <span className="pickup-dot"></span>
+
                       <span>{ride.pickupAddress || "Address not found"}</span>
                     </td>
 
                     <td className="address-cell">
                       <span className="destination-dot"></span>
+
                       <span>{ride.dropoffAddress || "Address not found"}</span>
                     </td>
 
@@ -706,11 +868,11 @@ const DriverProfile = () => {
                         : "N/A"}
                     </td>
 
-                    <td className="status-cell">{ride.status || "N/A"}</td>
+                    <td className="status-cell">{ride?.status || "N/A"}</td>
 
                     <td className="date-cell">
-                      {ride.createdAt
-                        ? new Date(ride.createdAt).toLocaleDateString()
+                      {ride?.createdAt
+                        ? new Date(ride.createdAt).toLocaleDateString("en-IN")
                         : "N/A"}
                     </td>
                   </tr>
